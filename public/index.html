@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ajaia Docs</title>
+
+  <!-- Fonts: Inter for the app, Fraunces for big headings, Source Serif for the page you write on. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Quill is a free rich-text editor. We load it from a CDN so there is nothing to build. -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Screen 1: pick a teammate to log in as -->
+  <section id="login-view" class="login">
+    <div class="login-hero">
+      <div class="brand"><span class="logo">A</span> Ajaia Docs</div>
+      <h1>Write together.<br />Move faster.</h1>
+      <p>A lightweight workspace for the documents your team shares every day.</p>
+      <ul class="hero-points">
+        <li>Rich-text editing with autosave</li>
+        <li>Import .txt, .md and .docx files</li>
+        <li>Share with view or edit access</li>
+      </ul>
+    </div>
+    <div class="login-panel">
+      <h2>Welcome back</h2>
+      <p class="muted">Pick a teammate to sign in as. No password is needed for this demo.</p>
+      <div id="user-buttons"></div>
+    </div>
+  </section>
+
+  <!-- Screen 2: the app (shown after login) -->
+  <div id="app-view" hidden>
+    <header class="topbar">
+      <div class="brand"><span class="logo">A</span> Ajaia Docs</div>
+      <div class="me">
+        <span id="me-avatar"></span>
+        <span class="me-text">
+          <strong id="user-name"></strong>
+          <small id="user-title"></small>
+        </span>
+        <button id="logout-btn" class="ghost">Log out</button>
+      </div>
+    </header>
+
+    <!-- Document list -->
+    <main id="list-view" class="container">
+      <section class="hello">
+        <h1 id="greeting"></h1>
+        <p class="muted">Here is what is happening in your workspace.</p>
+      </section>
+
+      <div class="actions">
+        <button id="new-doc-btn" class="primary">+ New document</button>
+        <label class="upload-label">
+          Upload file
+          <input type="file" id="upload-input" accept=".txt,.md,.docx" hidden />
+        </label>
+        <small class="muted">Supported files: .txt, .md, .docx (max 2 MB). Uploading creates a new document.</small>
+      </div>
+      <p id="list-error" class="error"></p>
+
+      <h2 class="section-title">My documents <span id="owned-count" class="count"></span></h2>
+      <div id="owned-list" class="doc-grid"></div>
+
+      <h2 class="section-title">Shared with me <span id="shared-count" class="count"></span></h2>
+      <div id="shared-list" class="doc-grid"></div>
+    </main>
+
+    <!-- Editor -->
+    <main id="editor-view" hidden>
+      <div class="editor-bar">
+        <button id="back-btn" class="ghost">&larr; All documents</button>
+        <input id="title-input" maxlength="120" aria-label="Document title" />
+        <span id="save-status" class="status"></span>
+        <span id="collab" class="avatar-stack"></span>
+        <span id="role-badge" class="badge"></span>
+        <button id="share-btn" class="primary" hidden>Share</button>
+      </div>
+      <p id="editor-error" class="error"></p>
+
+      <!-- Share panel: only visible to the owner -->
+      <div id="share-panel" class="card share-card" hidden>
+        <h3>Share this document</h3>
+        <form id="share-form">
+          <input id="share-email" type="email" placeholder="Email, e.g. andy@example.com" required />
+          <select id="share-role">
+            <option value="edit">Can edit</option>
+            <option value="view">Can view</option>
+          </select>
+          <button type="submit" class="primary">Share</button>
+        </form>
+        <div id="share-suggest" class="suggest"></div>
+        <p id="share-error" class="error"></p>
+        <ul id="share-list" class="people"></ul>
+      </div>
+
+      <!-- Quill puts its toolbar and the writing area inside this box -->
+      <div id="editor-wrap">
+        <div id="editor"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
